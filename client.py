@@ -2,7 +2,7 @@
 
 import socket
 
-DNS_IP_ADDR = '127.0.0.1'
+DNS_IP = '127.0.0.1'
 DNS_PORT = 53
 
 def connectDNS(serverDomain, IP_ADDR, PORT):
@@ -42,6 +42,10 @@ def main():
 
   print('\nBem Vindo ao DNS Minimal!\n')
   serverDomain = input('Qual dominio voce deseja se conectar? ')
-  IP_ADDR = connectDNS(serverDomain, DNS_IP_ADDR, DNS_PORT)
-  connectServer(IP_ADDR)
+  IP_ADDR = connectDNS(serverDomain, DNS_IP, DNS_PORT)
+  IP_ADDR = IP_ADDR.decode()
+  if IP_ADDR != 'NOT FOUND':
+    connectServer(IP_ADDR)
+  else:
+    print('Domain not exists in DNS Server.')
 main()
