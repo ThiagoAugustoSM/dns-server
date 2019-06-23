@@ -1,14 +1,13 @@
 # SERVER
 
 import socket
+import constants
+HOST = constants.SERVER_IP  # Standard loopback interface address (localhost)
+PORT = constants.SERVER_PORT        # Port to listen on (non-privileged ports are > 1023)
 
-HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
-PORT = 80        # Port to listen on (non-privileged ports are > 1023)
-
-DOMAIN = 'server.com'
-DNS_IP = '127.0.0.1'
-DNS_PORT = 53
-
+DNS_IP = constants.DNS_IP
+DNS_PORT = constants.DNS_PORT
+SERVER_DOMAIN = constants.SERVER_DOMAIN
 
 def responseParser(data):
   return data.decode() 
@@ -27,6 +26,7 @@ def connectDNS(serverDomain, IP_ADDR, PORT):
   print('Received', data)
 
 def createServer(HOST, PORT):
+  print('Server Started at: ', HOST, '::', PORT)
   with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
     s.listen()
@@ -39,5 +39,5 @@ def createServer(HOST, PORT):
           break
         conn.sendall(data)
 
-connectDNS(DOMAIN, DNS_IP, DNS_PORT)
+connectDNS(SERVER_DOMAIN, DNS_IP, DNS_PORT)
 createServer(HOST, PORT)

@@ -1,32 +1,42 @@
 # Client 
 
 import socket
+from constants import DNS_IP, DNS_PORT, SERVER_PORT, SERVER_DOMAIN
 
-DNS_IP = '127.0.0.1'
-DNS_PORT = 53
+class Client:
 
-def connectDNS(serverDomain, IP_ADDR, PORT):
+  def __init__(self, SERVER_DOMAIN, SERVER_PORT, DNS_IP, DNS_PORT):
+    self.SERVER_DOMAIN = SERVER_DOMAIN
+    self.SERVER_IP = ''
+    self.SERVER_PORT = SERVER_PORT
+    self.DNS_IP = DNS_IP
+    self.DNS_PORT = DNS_PORT
 
-  with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((IP_ADDR, PORT))
-    content = 'GET/' + serverDomain
-    s.send(content.encode())
-    data = s.recv(1024)
-    IP = responseParser(data)
-    return IP
-  print('Received', data)
+  def connectDNS(self):
 
-def connectServer(IP_SERVER_ADDR, PORT=80):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+      s.connect((self.DNS_IP, self.DNS_PORT))
+      content = 'GET/' + self.SERVER_DOMAIN
+      s.send(content.encode())
+      data = s.recv(1024)
+      IP = data.decode()
+      return IP
+    print('Received', data)
 
-  with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((IP_SERVER_ADDR, PORT))
-    content = 'GET/' + IP_SERVER_ADDR
-    s.send(content.encode())
-    data = s.recv(1024)
-    responseParser(data)
-    print("ME conectei com o server")
-  print('Received', data)
+  def connectServer(self):
 
+    print('Connecting to server...')
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+      s.connect((self.SERVER_IP, self.SERVER_PORT))
+      print('Connected to: ', self.SERVER_DOMAIN)
+      content = 'GET/' + self.SERVER_IP
+      s.send(content.encode())
+      data = s.recv(1024)
+      responseParser(data)
+    print('Received', data)
+
+  def setServerIP(self, serverIP):
+    self.SERVER_IP = serverIP
 def responseParser(data):
   return data.decode() 
 
@@ -42,10 +52,11 @@ def main():
 
   print('\nBem Vindo ao DNS Minimal!\n')
   serverDomain = input('Qual dominio voce deseja se conectar? ')
-  IP_ADDR = connectDNS(serverDomain, DNS_IP, DNS_PORT)
-  IP_ADDR = IP_ADDR.decode()
+  client = Client(SERVER_DOMAIN, SERVER_PORT, DNS_IP, DNS_PORT)
+  IP_ADDR = client.connectDNS()
   if IP_ADDR != 'NOT FOUND':
-    connectServer(IP_ADDR)
+    client.setServerIP(IP_ADDR)
+    client.connectServer()
   else:
     print('Domain not exists in DNS Server.')
 main()

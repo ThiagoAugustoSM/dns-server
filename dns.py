@@ -2,6 +2,7 @@
 
 import socket
 import _thread as t
+from constants import DNS_IP, DNS_PORT
 
 # AF_INET = Intenet Address Family
 # SOCK_STREAM = TCP
@@ -15,10 +16,7 @@ class DNSServer:
 
   def handleRequest(self, data):
     content = data.decode().split('/')
-    
-    print(content[0])
-    print(content[1])
-    print(content[2])
+
     # Request made by the client
     # Return the IP Address
     if content[0] == 'GET':
@@ -41,14 +39,16 @@ class DNSServer:
 
   def onNewClient(self, conn, addr):
     with conn:
-        print('Connected by: ', addr)
+        print('\nNew Connection from: ', addr)
         while True:
           data = conn.recv(1024)
-          print(data.decode())
+          print('Received: ', data.decode())
 
           response = self.handleRequest(data)
           response = response.encode()
+          
           conn.sendall(response)
+          print('Connection Closed')
           break
           # if conn.recv b'' then we close the connection
           if not data:
@@ -59,17 +59,13 @@ class DNSServer:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
       s.bind((self.IP_ADDR, self.PORT))
       s.listen()
-      print("DNS Server Started")
+      print("DNS Server Started\n")
       while True:
-
         # Listening to multiple connections
         conn, addr = s.accept()
-        t.start_new_thread(self.onNewClient(conn, addr))
+        t.start_new_thread(self.onNewClient, (conn, addr))
 
 def main():
-
-  DNS_IP = '127.0.0.1'
-  DNS_PORT = 53
 
   initTable = {'host.com': '127.0.0.1'}
   dns = DNSServer(DNS_IP, DNS_PORT, initTable)

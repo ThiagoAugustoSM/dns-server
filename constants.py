@@ -1,0 +1,7 @@
+
+DNS_IP = '127.0.0.1'
+DNS_PORT = 1099
+
+SERVER_IP = '127.0.0.1'
+SERVER_PORT = 1100
+SERVER_DOMAIN = 'server.com'
