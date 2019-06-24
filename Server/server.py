@@ -45,10 +45,6 @@ class Server:
           data = conn.recv(1024)
           print('received:', data.decode())
           self.handleRequest(data, conn)
-          # break
-          # if not data:
-          #   break
-          # conn.sendall(data)
 
   def handleRequest(self, data, conn):
     request = data.decode().split('/')

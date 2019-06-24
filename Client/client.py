@@ -92,9 +92,6 @@ class Client:
       print('- ', r)
     print('')
 
-def responseParser(data):
-  return data.decode()
-
 def main():
 
   print('\nBem Vindo ao DNS Minimal!\n')
