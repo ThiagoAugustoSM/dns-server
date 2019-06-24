@@ -8,6 +8,14 @@ It is also the final project of the discipline Communication Infrastructure at U
 
 The ideia is that the Client requests the real IP Address of the Server, that is contained in a table of the DNS Server, that was previously updated by the server itself. And after that a connection is started between the Client and Server, with the purpose of providing a shell terminal and some services regarding files contained in Server directory.  
 
+## UDP Connection
+
+The raw UDP Connection was used, but a simple package transfer guarantee was developed upon it.
+
+For the server to send every package it needs to receive the ACK about the last sent package to send the next one. Making it more confiable about transfering a package, and if all package were received. The only one that it don't need to receive the ACK before is the first package to be sent.
+
+And other confiability implemented was the package numbering, with an indexing of every package with 16 bytes of packages possibilities. So the payload of each package is 1008 bytes of data + 16 bytes of indexing = 1024 bytes total.
+
 ## How to run
 
 - In three terminal separated, in order, run:
