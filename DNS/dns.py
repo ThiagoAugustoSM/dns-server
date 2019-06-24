@@ -1,8 +1,10 @@
 # DNS SERVER
 
+import sys
+sys.path.append('../')
 import socket
 import _thread as t
-from constants import DNS_IP, DNS_PORT
+from Constants.constants import DNS_IP, DNS_PORT
 
 # AF_INET = Intenet Address Family
 # SOCK_STREAM = TCP
