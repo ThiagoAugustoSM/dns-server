@@ -60,12 +60,13 @@ class Server:
     socket.sendto(fileSize.encode(), client)
     socket.recvfrom(1024)
 
-    # Package will be 1008 + 16 byte(index)
     f = open('./files/'+ fileName, 'rb+')
     l = f.read(1008)
     
     i = 0
     toSend = l + i.to_bytes(16, byteorder="big")
+    
+    # Package will be 1008(data) + 16 byte(index)
     while(l): # Read until the end of the file
       socket.sendto(toSend, client)
       socket.recvfrom(1024)
