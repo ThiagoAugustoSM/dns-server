@@ -4,6 +4,8 @@ This project is a minimal implementation of a DNS server in Python 3.
 
 It is also the final project of the discipline Communication Infrastructure at UFPE.
 
+Developed by [~tasm2](https://github.com/ThiagoAugustoSM) and [~jrsf](https://github.com/rafaellfaria).
+
 ## Ideia
 
 The ideia is that the Client requests the real IP Address of the Server, that is contained in a table of the DNS Server, that was previously updated by the server itself. And after that a connection is started between the Client and Server, with the purpose of providing a shell terminal and some services regarding files contained in Server directory.  
